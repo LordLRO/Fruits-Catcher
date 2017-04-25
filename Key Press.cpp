@@ -38,7 +38,7 @@ void GetMouseClick(SDL_Event &event, MouseAxis &mouse)
     }
 }
 
-bool ChooseMenu(SDL_Rect* &rect, MouseAxis &mouse)
+bool ObjectClicked(SDL_Rect* &rect, MouseAxis &mouse)
 {
     bool inside = true;
 

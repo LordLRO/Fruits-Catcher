@@ -42,7 +42,7 @@ bool ContinueGame(SDL_Renderer* &renderer)
     {
         MouseAxis static mouse;
         GetMouseClick(event, mouse);
-        if (ChooseMenu(ReplayRect, mouse) == true)
+        if (ObjectClicked(ReplayRect, mouse) == true)
         {
             delete (GameOverRect);
             delete (ReplayRect);
@@ -51,7 +51,7 @@ bool ContinueGame(SDL_Renderer* &renderer)
         }
 
         else
-        if (ChooseMenu(ExitRect, mouse) == true)
+        if (ObjectClicked(ExitRect, mouse) == true)
         {
 
             delete (GameOverRect);
@@ -80,13 +80,13 @@ void LoadMenu(void)
     SDL_RenderPresent(renderer);
 
     SDL_Event event;
-
+    SDL_SetWindowGrab(window, SDL_TRUE );
     bool gameRunning = true;
     while (gameRunning)
     {
         MouseAxis static mouse;
         GetMouseClick(event, mouse);
-        if (ChooseMenu(StartRect, mouse) == true)
+        if (ObjectClicked(StartRect, mouse) == true)
         {
             bool gameLoad = true;
             while(gameLoad)
@@ -105,7 +105,7 @@ void LoadMenu(void)
             }
         }
         else
-        if (ChooseMenu(ExitRect, mouse) == true) gameRunning = false;
+        if (ObjectClicked(ExitRect, mouse) == true) gameRunning = false;
     }
     quitSDL(window, renderer);
     SDL_free(BackgroundRect);
@@ -132,6 +132,8 @@ void LoadGame(SDL_Renderer* &renderer)
     int score = 0;
     int life = 5;
 
+    SDL_ShowCursor(0);
+
     bool gameRunning = true;
 
     while (gameRunning)
@@ -145,16 +147,18 @@ void LoadGame(SDL_Renderer* &renderer)
             LoadBag(event, renderer, bagimage, BagRect);
 
             int timeSinceEvent = (SDL_GetTicks() - timeOfEvent);
+
             LoadFruits(timeSinceEvent, renderer, BagRect, score, life);
 
             ShowStatus(renderer, score, life, font);
 
-            if (life <= 0 || (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE) ) gameRunning = false;
+            if (life <= 0) gameRunning = false;
 
             SDL_RenderPresent(renderer);
 
     }
 
+    SDL_ShowCursor(1);
     SDL_free(BackgroundRect);
     SDL_free(BagRect);
     TTF_CloseFont(font);
@@ -214,8 +218,21 @@ void LoadFruits (int time, SDL_Renderer* &renderer, SDL_Rect* &BagRect, int &sco
 void LoadBag (SDL_Event event, SDL_Renderer* &renderer, SDL_Texture* &img, SDL_Rect* &bag)
 {
     int static bag_x = 150;
-    if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_LEFT && bag_x >= 0) bag_x -= 10;
-    else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_RIGHT && bag_x <= 300) bag_x += 10;
+    if (event.type == SDL_KEYDOWN)
+    {
+        if (event.key.keysym.sym == SDLK_LEFT && bag_x > 0) bag_x -= 10; else
+        if (event.key.keysym.sym == SDLK_RIGHT && bag_x < 300) bag_x += 10;
+    }
+
+    if (event.type == SDL_MOUSEMOTION)
+    {
+        if (event.motion.x >= 0 && event.motion.x <= SCREEN_WIDTH)
+        {
+            bag_x = event.motion.x;
+            if (bag_x > 300) bag_x = 300;
+        }
+    }
+
     bag = loadIMG(img, bag_x, 560, 150, 75, renderer, bag);
 }
 

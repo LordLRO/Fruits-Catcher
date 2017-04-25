@@ -16,6 +16,6 @@ class MouseAxis
     };
 void GetMouseClick(SDL_Event &event, MouseAxis &mouse);
 
-bool ChooseMenu(SDL_Rect* &rect, MouseAxis &mouse);
+bool ObjectClicked(SDL_Rect* &rect, MouseAxis &mouse);
 
 #endif // KEY_PRESS_H_INCLUDED

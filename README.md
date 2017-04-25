@@ -8,4 +8,4 @@ Dlls requirement:
 	SDL TTF 2.0.14
 
 Game play:
-	Using Left & Right buttons to move
+	Using Mouse or Left & Right buttons to move
