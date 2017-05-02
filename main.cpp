@@ -9,7 +9,7 @@ int main(int argc, char* args[])
 {
     srand(time(0));
 
-    LoadMenu();
+    Load();
 
     return 0;
 }

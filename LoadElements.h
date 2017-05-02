@@ -6,7 +6,7 @@
 
 using namespace std;
 
-void LoadMenu(void);
+void Load(void);
 
 void LoadGame(SDL_Renderer* &renderer);
 

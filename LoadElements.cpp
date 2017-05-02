@@ -63,7 +63,7 @@ bool ContinueGame(SDL_Renderer* &renderer)
     }
 }
 
-void LoadMenu(void)
+void Load(void)
 {
     SDL_Window *window = nullptr;
     SDL_Renderer *renderer = nullptr;
@@ -177,7 +177,7 @@ void LoadFruits (int time, SDL_Renderer* &renderer, SDL_Rect* &BagRect, int &sco
             RenewFruit(fruit[i]);
         }
 
-        if ( (fruit[i].rect->y + fruit[i].speed) > SCREEN_HEIGHT )
+        if ( (fruit[i].rect->y + fruit[i].speed) > SCREEN_HEIGHT - 50)
         {
             RenewFruit(fruit[i]);
             life--;
